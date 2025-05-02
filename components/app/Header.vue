@@ -113,9 +113,14 @@
 <script setup>
 import { useAuthStore } from '~/stores/auth';
 import { storeToRefs } from 'pinia';
+import { onMounted } from 'vue';
 
 const authStore = useAuthStore();
 const { isAuthenticated, user } = storeToRefs(authStore);
+
+onMounted(async () => {
+  await authStore.checkAuth();
+});
 
 const handleLogout = async () => {
   await authStore.logout();

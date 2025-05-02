@@ -134,8 +134,10 @@
 <script setup>
 import { ref, reactive } from 'vue';
 import { useToast } from 'vue-toastification';
+import { useAuthStore } from '~/stores/auth';
 
 const toast = useToast();
+const authStore = useAuthStore();
 
 const form = reactive({
   email: '',
@@ -169,17 +171,20 @@ const handleSubmit = async () => {
   isLoading.value = true;
   
   try {
-    // Here you would connect to your authentication API
-    // For now, we'll simulate a login request
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // Simulate successful login
-    toast.success('Successfully logged in');
-    
-    // Redirect to dashboard after successful login
-    await navigateTo('/dashboard');
+    const result = await authStore.login({
+      email: form.email,
+      password: form.password,
+      rememberMe: form.rememberMe,
+    });
+
+    if (result.success) {
+      toast.success('Successfully logged in');
+      await navigateTo('/dashboard');
+    } else {
+      toast.error(result.error || 'Failed to login. Please check your credentials.');
+    }
   } catch (error) {
-    toast.error('Failed to login. Please check your credentials.');
+    toast.error('Failed to login. Please try again.');
   } finally {
     isLoading.value = false;
   }
