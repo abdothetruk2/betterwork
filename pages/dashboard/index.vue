@@ -278,7 +278,7 @@ import { ref, computed, reactive } from 'vue';
 import { useAuthStore } from '~/stores/auth';
 import { storeToRefs } from 'pinia';
 
-const toast = useToast();
+
 const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
 
