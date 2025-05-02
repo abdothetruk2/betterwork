@@ -18,7 +18,7 @@
     "@vueuse/core": "^10.9.0",
     "@vueuse/nuxt": "^10.9.0",
     "js-cookie": "^3.0.5",
-    "nuxt": "^3.13.0",
+    "nuxt": "^3.17.1",
     "pinia": "^2.1.7",
     "vee-validate": "^4.12.6",
     "vue-toastification": "^2.0.0-rc.5",
