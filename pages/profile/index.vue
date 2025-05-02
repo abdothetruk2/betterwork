@@ -323,7 +323,7 @@
 
 <script setup>
 import { ref, reactive, computed } from 'vue';
-import { useToast } from 'vue-toastification';
+import { useToast } from 'vue-toastification'
 
 const toast = useToast();
 const profileImage = ref(null);

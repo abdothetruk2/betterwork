@@ -10,7 +10,10 @@ export default defineNuxtConfig({
     'nuxt-icon',
     'nuxt-headlessui'
   ],
-  css: ['~/assets/css/main.css'],
+  css: [
+    '~/assets/css/main.css',
+    'vue-toastification/dist/index.css'
+  ],
   app: {
     head: {
       title: 'BetterWork - The Better Freelancing Platform',
@@ -38,5 +41,8 @@ export default defineNuxtConfig({
   },
   nitro: {
     preset: 'static'
-  }
+  },
+  plugins: [
+    '~/plugins/toast.js'
+  ]
 })

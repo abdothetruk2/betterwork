@@ -133,10 +133,11 @@
 
 <script setup>
 import { ref, reactive } from 'vue';
-import { useToast } from 'vue-toastification';
 import { useAuthStore } from '~/stores/auth';
+import { useToast } from 'vue-toastification'
 
-const toast = useToast();
+// Get the toast from the plugin
+const toast = useToast()
 const authStore = useAuthStore();
 
 const form = reactive({

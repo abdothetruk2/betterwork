@@ -208,7 +208,7 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { useToast } from 'vue-toastification';
+import { useToast } from 'vue-toastification'
 
 const route = useRoute();
 const toast = useToast();
