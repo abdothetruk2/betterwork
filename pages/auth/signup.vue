@@ -208,10 +208,9 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { useToast } from 'vue-toastification'
 
+const { $notify } = useNuxtApp();
 const route = useRoute();
-const toast = useToast();
 const userType = ref('freelancer');
 
 const form = reactive({
@@ -311,8 +310,11 @@ const handleSubmit = async () => {
     await new Promise(resolve => setTimeout(resolve, 1500));
     
     // Simulate successful signup
-    toast.success(`Account created successfully as a ${userType.value}!`, {
-      timeout: 2000,
+    $notify({
+      title: 'Success',
+      text: `Account created successfully as a ${userType.value}!`,
+      type: 'success',
+      duration: 2000
     });
     
     // Redirect to onboarding or dashboard
@@ -322,8 +324,11 @@ const handleSubmit = async () => {
       await navigateTo('/onboarding/client');
     }
   } catch (error) {
-    toast.error('Failed to create account. Please try again.', {
-      timeout: 3000,
+    $notify({
+      title: 'Error',
+      text: 'Failed to create account. Please try again.',
+      type: 'error',
+      duration: 3000
     });
   } finally {
     isLoading.value = false;

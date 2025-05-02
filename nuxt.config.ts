@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: false },
@@ -12,7 +13,7 @@ export default defineNuxtConfig({
   ],
   css: [
     '~/assets/css/main.css',
-    'vue-toastification/dist/index.css'
+    // Add the notification CSS here for client-side only
   ],
   app: {
     head: {
@@ -33,16 +34,30 @@ export default defineNuxtConfig({
     configPath: '~/tailwind.config.ts',
     exposeConfig: true
   },
-  pinia: {
-    autoImports: ['defineStore', 'acceptHMRUpdate']
-  },
   imports: {
     dirs: ['stores']
   },
   nitro: {
-    preset: 'static'
+    preset: 'static',
+    prerender: {
+      crawlLinks: true,
+      ignore: ['/dashboard'], // prevent it from breaking build
+    },
   },
   plugins: [
-    '~/plugins/toast.js'
-  ]
+    '~/plugins/notification.client.ts'
+  ],
+  // Add this configuration to handle client-only styles
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: ''
+        }
+      }
+    },
+    optimizeDeps: {
+      include: ['@kyvg/vue3-notification']
+    }
+  }
 })

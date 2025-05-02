@@ -323,9 +323,11 @@
 
 <script setup>
 import { ref, reactive, computed } from 'vue';
-import { useToast } from 'vue-toastification'
+// Remove the import for vue-toastification
+// import { useToast } from 'vue-toastification'
 
-const toast = useToast();
+// Get the notify function from the plugin
+const { $notify } = useNuxtApp();
 const profileImage = ref(null);
 const newSkill = ref('');
 const isLoading = ref(false);
@@ -362,12 +364,20 @@ const handleImageUpload = async (event) => {
 
   // Validate file type and size
   if (!file.type.startsWith('image/')) {
-    toast.error('Please upload an image file');
+    $notify({
+      title: 'Error',
+      text: 'Please upload an image file',
+      type: 'error'
+    });
     return;
   }
 
   if (file.size > 5 * 1024 * 1024) { // 5MB limit
-    toast.error('Image size should be less than 5MB');
+    $notify({
+      title: 'Error',
+      text: 'Image size should be less than 5MB',
+      type: 'error'
+    });
     return;
   }
 
@@ -383,9 +393,17 @@ const handleImageUpload = async (event) => {
     // For now, we'll just simulate an upload
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    toast.success('Profile picture updated successfully');
+    $notify({
+      title: 'Success',
+      text: 'Profile picture updated successfully',
+      type: 'success'
+    });
   } catch (error) {
-    toast.error('Failed to upload image');
+    $notify({
+      title: 'Error',
+      text: 'Failed to upload image',
+      type: 'error'
+    });
     console.error('Upload error:', error);
   }
 };
@@ -396,12 +414,20 @@ const handleProjectImageUpload = async (event) => {
 
   // Validate file type and size
   if (!file.type.startsWith('image/')) {
-    toast.error('Please upload an image file');
+    $notify({
+      title: 'Error',
+      text: 'Please upload an image file',
+      type: 'error'
+    });
     return;
   }
 
   if (file.size > 10 * 1024 * 1024) { // 10MB limit
-    toast.error('Image size should be less than 10MB');
+    $notify({
+      title: 'Error',
+      text: 'Image size should be less than 10MB',
+      type: 'error'
+    });
     return;
   }
 
@@ -413,7 +439,11 @@ const handleProjectImageUpload = async (event) => {
     };
     reader.readAsDataURL(file);
   } catch (error) {
-    toast.error('Failed to upload image');
+    $notify({
+      title: 'Error',
+      text: 'Failed to upload image',
+      type: 'error'
+    });
     console.error('Upload error:', error);
   }
 };
@@ -447,12 +477,20 @@ const addProject = () => {
   });
 
   showProjectModal.value = false;
-  toast.success('Project added successfully');
+  $notify({
+    title: 'Success',
+    text: 'Project added successfully',
+    type: 'success'
+  });
 };
 
 const removeProject = (index) => {
   form.projects.splice(index, 1);
-  toast.success('Project removed successfully');
+  $notify({
+    title: 'Success',
+    text: 'Project removed successfully',
+    type: 'success'
+  });
 };
 
 const validateForm = () => {
@@ -482,9 +520,17 @@ const saveProfile = async () => {
     // Here you would typically save the profile data to your backend
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    toast.success('Profile updated successfully');
+    $notify({
+      title: 'Success',
+      text: 'Profile updated successfully',
+      type: 'success'
+    });
   } catch (error) {
-    toast.error('Failed to update profile');
+    $notify({
+      title: 'Error',
+      text: 'Failed to update profile',
+      type: 'error'
+    });
     console.error('Save error:', error);
   } finally {
     isLoading.value = false;

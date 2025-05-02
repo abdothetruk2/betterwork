@@ -134,10 +134,9 @@
 <script setup>
 import { ref, reactive } from 'vue';
 import { useAuthStore } from '~/stores/auth';
-import { useToast } from 'vue-toastification'
 
-// Get the toast from the plugin
-const toast = useToast()
+// Get the notify function from the plugin
+const { $notify } = useNuxtApp();
 const authStore = useAuthStore();
 
 const form = reactive({
@@ -179,13 +178,26 @@ const handleSubmit = async () => {
     });
 
     if (result.success) {
-      toast.success('Successfully logged in');
+      // Use $notify instead of toast
+      $notify({
+        title: 'Success',
+        text: 'Successfully logged in',
+        type: 'success'
+      });
       await navigateTo('/dashboard');
     } else {
-      toast.error(result.error || 'Failed to login. Please check your credentials.');
+      $notify({
+        title: 'Error',
+        text: result.error || 'Failed to login. Please check your credentials.',
+        type: 'error'
+      });
     }
   } catch (error) {
-    toast.error('Failed to login. Please try again.');
+    $notify({
+      title: 'Error',
+      text: 'Failed to login. Please try again.',
+      type: 'error'
+    });
   } finally {
     isLoading.value = false;
   }

@@ -1,4 +1,4 @@
-```vue
+
 <template>
   <div class="card p-6">
     <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Submit Proposal</h3>
@@ -97,9 +97,11 @@
 
 <script setup>
 import { ref, reactive } from 'vue';
-import { useToast } from 'vue-toastification';
+// Remove the import for vue-toastification
+// import { useToast } from 'vue-toastification';
 
-const toast = useToast();
+// Get the notify function from the plugin
+const { $notify } = useNuxtApp();
 const emit = defineEmits(['submitted']);
 
 const form = reactive({
@@ -122,13 +124,21 @@ const handleFileUpload = (event) => {
   
   files.forEach(file => {
     if (file.size > 10 * 1024 * 1024) { // 10MB limit
-      toast.error(`File ${file.name} is too large. Maximum size is 10MB.`);
+      $notify({
+        title: 'Error',
+        text: `File ${file.name} is too large. Maximum size is 10MB.`,
+        type: 'error'
+      });
       return;
     }
     
     const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/jpeg', 'image/png'];
     if (!allowedTypes.includes(file.type)) {
-      toast.error(`File ${file.name} is not supported. Please upload PDF, DOC, PNG, or JPG files.`);
+      $notify({
+        title: 'Error',
+        text: `File ${file.name} is not supported. Please upload PDF, DOC, PNG, or JPG files.`,
+        type: 'error'
+      });
       return;
     }
     
@@ -173,7 +183,11 @@ const submitProposal = async () => {
     // Here you would typically submit the proposal to your API
     await new Promise(resolve => setTimeout(resolve, 1500));
     
-    toast.success('Proposal submitted successfully!');
+    $notify({
+      title: 'Success',
+      text: 'Proposal submitted successfully!',
+      type: 'success'
+    });
     emit('submitted');
     
     // Reset form
@@ -182,10 +196,13 @@ const submitProposal = async () => {
     form.message = '';
     form.attachments = [];
   } catch (error) {
-    toast.error('Failed to submit proposal. Please try again.');
+    $notify({
+      title: 'Error',
+      text: 'Failed to submit proposal. Please try again.',
+      type: 'error'
+    });
   } finally {
     isSubmitting.value = false;
   }
 };
 </script>
-```
