@@ -41,7 +41,7 @@ export default defineNuxtConfig({
     preset: 'static',
     prerender: {
       crawlLinks: true,
-      ignore: ['/dashboard'], // prevent it from breaking build
+
     },
   },
   plugins: [
